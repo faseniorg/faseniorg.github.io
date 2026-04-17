@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanks &mdash; Fully Automated Software Engineering NI</title>
+    <meta name="description" content="Thanks for getting in touch with the Fully Automated Software Engineering NI community.">
+    <meta name="robots" content="noindex">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap">
+    <style>
+        :root {
+            --bg-page: #151314;
+            --bg-dark: #0d0c0c;
+            --text-primary: #e8e4df;
+            --text-heading: #fffdfa;
+            --text-muted: #9e9591;
+            --accent: #ff3366;
+            --warning: #ffea00;
+            --font-heading: 'Space Mono', monospace;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        html, body { height: 100%; }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.055;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 256px 256px;
+        }
+
+        .hazard-tape {
+            height: 14px;
+            background: repeating-linear-gradient(
+                -45deg,
+                var(--bg-dark),
+                var(--bg-dark) 10px,
+                var(--warning) 10px,
+                var(--warning) 20px
+            );
+            border-top: 3px solid var(--text-heading);
+            border-bottom: 3px solid var(--text-heading);
+            width: 100%;
+        }
+
+        .thanks {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(4rem, 10vw, 7rem) 4%;
+            text-align: center;
+        }
+
+        .thanks-inner {
+            max-width: 640px;
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.4rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.25rem;
+            text-transform: uppercase;
+            color: var(--text-heading);
+        }
+        h1::after {
+            content: '_';
+            color: var(--warning);
+            text-shadow: 0 0 10px var(--warning);
+            animation: blink 1s step-end infinite;
+        }
+
+        .thanks p {
+            font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+            color: var(--text-muted);
+            margin: 0 auto 2.25rem;
+            max-width: 46ch;
+        }
+
+        .talk-cta {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--bg-dark);
+            text-decoration: none;
+            padding: 1rem 2.2rem;
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            transition: transform 0.1s, box-shadow 0.1s;
+            box-shadow: 6px 6px 0px var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+        .talk-cta:hover { transform: translate(2px, 2px); box-shadow: 4px 4px 0px var(--text-heading); }
+
+        @media (max-width: 640px) {
+            h1 { font-size: 2.2rem; }
+            .talk-cta { width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hazard-tape"></div>
+
+    <main class="thanks">
+        <div class="thanks-inner">
+            <h1>Thanks &mdash; we got&nbsp;it</h1>
+            <p>We'll get back to you shortly.</p>
+            <a href="index.html" class="talk-cta">Back to the site &rarr;</a>
+        </div>
+    </main>
+
+    <div class="hazard-tape"></div>
+</body>
+</html>

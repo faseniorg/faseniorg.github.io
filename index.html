@@ -1,1 +1,1101 @@
-Fully Automated Software Engineering NI website coming soon
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fully Automated Software Engineering NI</title>
+    <meta name="description" content="A Northern Ireland community exploring the frontier of fully automated software engineering. Talks, research, and open collaboration.">
+    <link rel="preload" href="img/retro-mainframe.webp" as="image" type="image/webp">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap">
+    <style>
+
+        :root {
+            --bg-page: #151314;
+            --bg-raised: #1d1a1b;
+            --bg-surface: #262224;
+            --bg-dark: #0d0c0c;
+            --text-primary: #e8e4df;
+            --text-heading: #fffdfa;
+            --text-muted: #9e9591;
+            --text-dim: #6e6764;
+            --accent: #ff3366;
+            --warning: #ffea00;
+            --accent-dim: rgba(255, 51, 102, 0.15);
+            --font-heading: 'Space Mono', monospace;
+            --font-body: 'Inter', sans-serif;
+            --border: 1px solid #332d2f;
+            --border-bright: 1px solid #4a4245;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+            }
+            
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-4deg); }
+            50% { transform: translateY(-8px) rotate(-1deg); }
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.055;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 256px 256px;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+        }
+        h1 {
+            font-size: clamp(2.6rem, 6vw, 5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+        h2 {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        h2::before {
+            content: '>';
+            color: var(--accent);
+            margin-right: 0.5rem;
+            display: inline-block;
+        }
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        p {
+            font-size: clamp(1.05rem, 1.3vw, 1.2rem);
+            font-weight: 400;
+            color: var(--text-primary);
+            max-width: 60ch;
+        }
+        .label {
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+            display: block;
+        }
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 4%;
+        }
+        section { padding: 7.5rem 0; }
+
+        /* --- PUNK ELEMENTS --- */
+        .assembly-container {
+            width: 100%;
+            height: 50px;
+            margin-bottom: 2rem;
+            border-bottom: 2px dashed var(--text-dim);
+            overflow: hidden;
+            position: relative;
+        }
+        .assembly-belt {
+            display: flex;
+            width: max-content;
+            animation: belt-scroll 3.5s linear infinite;
+        }
+        .assembly-group {
+            display: flex;
+        }
+        .assembly-box {
+            width: 32px;
+            height: 32px;
+            margin-right: 60px;
+            margin-top: 10px;
+            border: 2px solid var(--text-heading);
+            flex-shrink: 0;
+        }
+        .box-pink { 
+            background: var(--accent); 
+            box-shadow: 4px 4px 0 var(--warning); 
+        }
+        .box-yellow { 
+            background: var(--warning); 
+            box-shadow: 4px 4px 0 var(--accent); 
+        }
+        @keyframes belt-scroll {
+            from { transform: translateX(-184px); }
+            to { transform: translateX(0); } /* (32px width + 60px margin) * 2 = 184px */
+        }
+        
+        .pulse-bars {
+            display: inline-flex;
+            gap: 4px;
+            align-items: flex-end;
+            height: 18px;
+            margin-left: 14px;
+        }
+        .pulse-bars span {
+            width: 8px;
+            background: var(--warning);
+            animation: raw-pulse 0.8s step-end infinite alternate;
+        }
+        .pulse-bars span:nth-child(1) { height: 100%; animation-delay: 0s; }
+        .pulse-bars span:nth-child(2) { height: 30%; animation-delay: 0.2s; }
+        .pulse-bars span:nth-child(3) { height: 70%; animation-delay: 0.4s; }
+        
+        @keyframes raw-pulse {
+            0% { height: 20%; }
+            25% { height: 100%; }
+            50% { height: 40%; }
+            75% { height: 80%; }
+            100% { height: 10%; }
+        }
+
+        .hazard-tape {
+            height: 14px;
+            background: repeating-linear-gradient(
+              -45deg,
+              var(--bg-dark),
+              var(--bg-dark) 10px,
+              var(--warning) 10px,
+              var(--warning) 20px
+            );
+            border-top: 3px solid var(--text-heading);
+            border-bottom: 3px solid var(--text-heading);
+            width: 100%;
+        }
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: -8%;
+            transform: translateY(-50%) rotate(-90deg);
+            font-family: var(--font-heading);
+            font-size: 14vw;
+            color: rgba(255, 255, 255, 0.02);
+            z-index: -1;
+            pointer-events: none;
+            white-space: nowrap;
+            font-weight: 700;
+        }
+        
+        .mascot {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--accent);
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.05em;
+            display: inline-block;
+            text-shadow: 4px 4px 0px var(--warning);
+            -webkit-text-stroke: 1px var(--warning);
+            animation: float 3s ease-in-out infinite;
+            margin: 0;
+            flex-shrink: 0;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            position: relative;
+            padding: 6rem 0 5rem;
+            background: var(--bg-page);
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('img/retro-mainframe.webp');
+            background-size: cover;
+            background-position: center bottom;
+            opacity: 0.5;
+            filter: contrast(120%) saturate(150%);
+            mix-blend-mode: screen;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 40%, var(--bg-page) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .hero-content { 
+            position: relative; 
+            z-index: 2; 
+            width: 100%; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        .hero-text {
+            max-width: 650px;
+        }
+        .hero h1::after {
+            content: '_';
+            color: var(--warning);
+            text-shadow: 0 0 10px var(--warning);
+            animation: blink 1s step-end infinite;
+        }
+        .hero p {
+            font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+            max-width: 52ch;
+            color: var(--text-muted);
+        }
+        .hero p + p { margin-top: 1rem; }
+
+        /* --- INTRO --- */
+        .intro-section {
+            background: var(--bg-page);
+        }
+        .intro-container {
+            max-width: 800px;
+        }
+        .intro-container p {
+            font-size: clamp(1.15rem, 1.8vw, 1.4rem);
+            color: var(--text-primary);
+            max-width: 65ch;
+        }
+        .intro-container p + p { margin-top: 1rem; }
+
+        /* --- WHAT'S HAPPENING --- */
+        .what-section {
+            background: var(--bg-page);
+        }
+        .what-container {
+            max-width: 760px;
+        }
+        .what-header { margin-bottom: 2rem; position: relative; }
+        .what-body p {
+            max-width: 65ch;
+            color: var(--text-muted);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .what-body p::before {
+            content: '>';
+            color: var(--warning);
+            position: absolute;
+            left: 0;
+            font-family: var(--font-heading);
+            font-weight: 700;
+        }
+        .what-body p + p { margin-top: 1rem; }
+        .what-body strong { 
+            color: var(--bg-dark); 
+            background: var(--text-heading);
+            padding: 0 0.3rem;
+            font-weight: 700; 
+            font-family: var(--font-heading);
+            margin-right: 0.3rem;
+            display: inline-block;
+        }
+
+        /* --- METR CHART --- */
+        .chart-section {
+            background: var(--bg-raised);
+            padding: 5rem 0 6rem;
+        }
+        .chart-section .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .chart-section h2 {
+            margin-bottom: 0.6rem;
+        }
+        .chart-section > .container > p {
+            max-width: 52ch;
+            margin-bottom: 2.5rem;
+            color: var(--text-muted);
+        }
+        .metr-figure {
+            width: 100%;
+            max-width: 980px;
+        }
+        .metr-panel {
+            margin-top: 2rem;
+        }
+        .metr-img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        .metr-figure figcaption {
+            margin-top: 1rem;
+            font-family: var(--font-heading);
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+        .metr-figure figcaption a {
+            color: var(--accent);
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 0.18em;
+        }
+
+        .talk-section {
+            background: var(--bg-surface);
+            color: #fff;
+            padding: 5.5rem 0;
+        }
+        .talk-section .label {
+            color: var(--bg-dark);
+            font-size: 0.82rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            background: var(--warning);
+            display: inline-block;
+            padding: 0.45rem 1rem;
+            box-shadow: 4px 4px 0px var(--text-heading);
+            border: 2px solid var(--text-heading);
+            transform: rotate(-1.5deg);
+            transform-origin: left center;
+        }
+        .talk-section h2 {
+            color: var(--text-heading);
+            font-size: clamp(2rem, 4.5vw, 3rem);
+            margin-bottom: 1.2rem;
+        }
+        .talk-section .talk-desc {
+            color: var(--text-muted);
+            max-width: 54ch;
+        }
+        .talk-section .talk-desc + .talk-desc { margin-top: 0.75rem; }
+        
+        .event-details-text {
+            margin-top: 3rem;
+            margin-bottom: 2.5rem;
+        }
+        .event-details-text p {
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+        }
+        .event-details-text strong {
+            color: var(--bg-dark); 
+            background: var(--accent);
+            padding: 0.1rem 0.4rem;
+            font-weight: 700; 
+            font-family: var(--font-heading);
+            margin-right: 0.5rem;
+            display: inline-block;
+            letter-spacing: 0.05em;
+        }
+        .countdown {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .countdown-unit {
+            text-align: center;
+        }
+        .countdown-num {
+            display: block;
+            font-family: var(--font-heading);
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            letter-spacing: -0.02em;
+            text-shadow: 4px 4px 0px var(--text-heading);
+            -webkit-text-stroke: 1px var(--text-heading);
+        }
+        .countdown-label {
+            font-family: var(--font-heading);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-dim);
+            margin-top: 0.45rem;
+        }
+        .talk-cta {
+            display: inline-block;
+            margin-top: 2rem;
+            background: var(--accent);
+            color: var(--bg-dark);
+            text-decoration: none;
+            padding: 1rem 2.4rem;
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            transition: transform 0.1s, box-shadow 0.1s;
+            box-shadow: 6px 6px 0px var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+        .talk-cta:hover { transform: translate(2px, 2px); box-shadow: 4px 4px 0px var(--text-heading); }
+        .event-banner {
+            background: var(--accent);
+            color: var(--bg-dark);
+            padding: 3rem 0;
+            text-align: center;
+        }
+        .event-banner p {
+            color: rgba(13,12,12,0.7);
+            max-width: 50ch;
+            margin: 0 auto 1.2rem;
+            font-size: clamp(1rem, 1.3vw, 1.15rem);
+        }
+        .event-banner-title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.4rem;
+            color: var(--bg-dark);
+        }
+        .event-banner .talk-cta {
+            margin-top: 0;
+            background: var(--bg-dark);
+            color: var(--text-heading);
+            border: 2px solid var(--bg-dark);
+        }
+        .event-banner .talk-cta:hover { background: #1a1718; color: var(--accent); }
+
+        /* --- SIGNALS --- */
+        .signals-section {
+            background: var(--bg-raised);
+            padding: clamp(5rem, 7vw, 6.5rem) 0;
+        }
+        .signals-header { margin-bottom: 1.8rem; }
+        .signals-header h2 { margin-bottom: 0.75rem; }
+        .signals-header p { max-width: 62ch; color: var(--text-muted); }
+        .signals-list {
+            list-style: none;
+            border-top: var(--border-bright);
+        }
+        .signal-item {
+            border-bottom: var(--border);
+            padding: 0.95rem 0;
+            display: grid;
+            grid-template-columns: 190px 1fr;
+            gap: 1.4rem;
+            align-items: baseline;
+        }
+        .signal-date {
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
+            letter-spacing: 0.02em;
+            color: var(--warning);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .signal-date::before {
+            content: '[ ';
+            color: var(--text-dim);
+            font-weight: 400;
+        }
+        .signal-date::after {
+            content: ' ]';
+            color: var(--text-dim);
+            font-weight: 400;
+        }
+        .signal-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.02rem;
+            line-height: 1.45;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .signal-link:hover { color: var(--accent); }
+
+        /* --- CONTACT / FOOTER --- */
+        .footer-cta {
+            position: relative;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            padding: clamp(6rem, 10vw, 8.5rem) 0;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        .footer-cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 4px,
+                rgba(255, 255, 255, 0.02) 4px,
+                rgba(255, 255, 255, 0.02) 8px
+            );
+            pointer-events: none;
+            z-index: 0;
+        }
+        .footer-cta::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, var(--bg-dark) 10%, transparent 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .footer-cta > .container {
+            position: relative;
+            z-index: 2;
+        }
+        .footer-main { max-width: 840px; position: relative; }
+        .footer-main h2 {
+            font-size: clamp(2.4rem, 5vw, 4rem);
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.1rem;
+            color: var(--text-heading);
+        }
+        .footer-main > p {
+            margin: 1rem 0 0;
+            max-width: 46ch;
+            color: var(--text-muted);
+            font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+        }
+        .contact-form {
+            margin-top: 2.2rem;
+            display: grid;
+            gap: 1rem;
+            max-width: 760px;
+        }
+        .contact-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .contact-field { display: grid; gap: 0.45rem; }
+        .contact-field span {
+            font-family: var(--font-heading);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+            color: var(--text-dim);
+        }
+        .contact-field input,
+        .contact-field textarea {
+            width: 100%;
+            border: var(--border);
+            background: var(--bg-raised);
+            color: var(--text-heading);
+            padding: 0.9rem 1rem;
+            font-size: 1rem;
+            font-family: var(--font-body);
+            outline: none;
+            border-radius: 0;
+        }
+        .contact-field textarea { min-height: 140px; resize: vertical; }
+        .contact-field input::placeholder,
+        .contact-field textarea::placeholder { color: var(--text-dim); }
+        .contact-field input:focus,
+        .contact-field textarea:focus { border-color: var(--accent); background: rgba(255, 51, 102, 0.04); }
+        .contact-submit {
+            justify-self: start;
+            background: var(--accent);
+            color: var(--bg-dark);
+            border: 2px solid var(--text-heading);
+            padding: 1.05rem 2.4rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-family: var(--font-heading);
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.1s;
+            box-shadow: 6px 6px 0px var(--text-heading);
+        }
+        .contact-submit:hover { transform: translate(2px, 2px); box-shadow: 4px 4px 0px var(--text-heading); }
+        
+        /* --- TEAM SECTION --- */
+        .team-section {
+            padding: 5.5rem 0;
+            background: var(--bg-surface);
+            border-top: 2px dashed var(--border-bright);
+        }
+        .team-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 3.5rem;
+            justify-content: center;
+        }
+        .team-card {
+            flex: 0 1 320px;
+            border: 2px solid var(--text-heading);
+            background: var(--bg-dark);
+            padding: 2rem 1.5rem;
+            position: relative;
+            box-shadow: 6px 6px 0px var(--accent);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .team-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px var(--accent);
+        }
+        .team-photo-container {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            margin-bottom: 1.5rem;
+            border: 2px solid var(--text-heading);
+            background: var(--bg-dark);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 4px 4px 0px var(--warning);
+        }
+        .team-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(120%) brightness(1.05);
+        }
+        .team-name {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            color: var(--text-heading);
+            margin-bottom: 0.2rem;
+            text-transform: uppercase;
+        }
+        .team-role {
+            font-family: var(--font-heading);
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 1.2rem;
+        }
+        .team-bio {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .team-link {
+            display: inline-block;
+            margin-top: 1rem;
+            font-family: var(--font-heading);
+            font-size: 0.85rem;
+            color: var(--warning);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--warning);
+            padding-bottom: 2px;
+        }
+        .team-link:hover {
+            color: var(--text-heading);
+            border-bottom-color: var(--text-heading);
+        }
+
+        .footer-bottom {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .footer-bottom p { font-size: 0.82rem; color: var(--text-dim); }
+        .footer-bottom a {
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-bottom a:hover { color: var(--accent); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            section { padding: 5.5rem 0; }
+            .hero { padding: 4rem 0 3rem; }
+            .hero-content { flex-direction: column-reverse; align-items: center; text-align: center; gap: 1rem; }
+            .mascot { margin-bottom: 2rem; font-size: 3.5rem; }
+            h1 { font-size: 2.6rem; }
+            p { font-size: 1.05rem; }
+            .signal-item { grid-template-columns: 1fr; gap: 0.4rem; }
+            .team-card { flex: 0 1 320px; }
+            .countdown-num { font-size: 2.4rem; }
+        }
+        @media (max-width: 640px) {
+            .contact-row { grid-template-columns: 1fr; }
+            .contact-submit { width: 100%; text-align: center; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.6rem; }
+            .countdown-num { font-size: 2rem; text-shadow: 3px 3px 0px var(--text-heading); }
+            .countdown { gap: 1rem; }
+            .event-details-text strong { font-size: 0.75rem; }
+            .assembly-container { display: none; }
+            .team-card { flex: 0 1 100%; max-width: 340px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="watermark" aria-hidden="true">AUTO_ENG_FAC</div>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Fully Automated Software Engineering&nbsp;NI</h1>
+                <p>A community exploring the frontier of AI software engineering in Northern Ireland.</p>
+                <a href="#talk" class="talk-cta" style="margin-top: 2.5rem;">Come to our first event &rarr;</a>
+            </div>
+            <div class="mascot" aria-hidden="true">[ ʘ ‿ ʘ ]</div>
+        </div>
+    </section>
+
+    <div class="hazard-tape"></div>
+
+    <section class="intro-section">
+        <div class="container intro-container">
+            <p>AI systems have become very capable of developing software, mostly by working with a human in a pair programming way.</p>
+            <p>However, people have started to run more ambitious experiments. Initially, the focus was on automatically implementing software at the ticket level. More recently, people have started pushing toward fully automating the creation of software end to end, from an initial idea to a working commercial product.</p>
+            <p>If this becomes effective, it could have a very disruptive effect on the software development industry.</p>
+            <p>There is a great opportunity to master this technology before it becomes widespread, as it may become the foundation of the whole industry.</p>
+            <p>In the early days of personal computing, the Homebrew Computer Club gave people a place to learn, experiment, and get ahead of a major technological shift. We want to build something similar in Northern Ireland, so that developers, researchers, and businesses here can understand fully automated software engineering early, build practical skills, and help shape where this goes.</p>
+        </div>
+    </section>
+
+    <div class="hazard-tape"></div>
+
+    <section class="chart-section">
+        <div class="container">
+            <h2>How far can AI go on a software&nbsp;task?</h2>
+            <p>METR measures the duration of real software engineering tasks that AI models can reliably complete.</p>
+            <figure class="metr-figure">
+                <div class="metr-panel">
+                    <img src="img/metr-ggplot.webp" alt="Custom METR chart in the community site style, showing METR Time Horizon 1.1 model release dates against estimated software task duration on a linear 50 percent success scale" class="metr-img" loading="lazy" width="2772" height="1584">
+                </div>
+                <figcaption>Source: <a href="https://metr.org/time-horizons/" target="_blank" rel="noopener noreferrer">METR</a></figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <div class="hazard-tape"></div>
+
+    <section class="what-section">
+        <div class="container what-container">
+            <div class="assembly-container" aria-hidden="true">
+                <div class="assembly-belt">
+                    <div class="assembly-group"><div class="assembly-box box-pink"></div><div class="assembly-box box-yellow"></div></div>
+                    <div class="assembly-group"><div class="assembly-box box-pink"></div><div class="assembly-box box-yellow"></div></div>
+                    <div class="assembly-group"><div class="assembly-box box-pink"></div><div class="assembly-box box-yellow"></div></div>
+                    <div class="assembly-group"><div class="assembly-box box-pink"></div><div class="assembly-box box-yellow"></div></div>
+                    <div class="assembly-group"><div class="assembly-box box-pink"></div><div class="assembly-box box-yellow"></div></div>
+                    <div class="assembly-group"><div class="assembly-box box-pink"></div><div class="assembly-box box-yellow"></div></div>
+                    <div class="assembly-group"><div class="assembly-box box-pink"></div><div class="assembly-box box-yellow"></div></div>
+                    <div class="assembly-group"><div class="assembly-box box-pink"></div><div class="assembly-box box-yellow"></div></div>
+                    <div class="assembly-group"><div class="assembly-box box-pink"></div><div class="assembly-box box-yellow"></div></div>
+                    <div class="assembly-group"><div class="assembly-box box-pink"></div><div class="assembly-box box-yellow"></div></div>
+                    <div class="assembly-group"><div class="assembly-box box-pink"></div><div class="assembly-box box-yellow"></div></div>
+                    <div class="assembly-group"><div class="assembly-box box-pink"></div><div class="assembly-box box-yellow"></div></div>
+                </div>
+            </div>
+            <div class="what-header">
+                <h2>What companies are actually&nbsp;doing</h2>
+            </div>
+            <div class="what-body">
+                <p><strong>OpenAI</strong> shipped an internal product where every line of code (application logic, tests, CI, documentation) was written by their Codex agent. Zero lines written by hand.</p>
+                <p><strong>Anthropic</strong> had 16 parallel Claude instances build a C compiler from scratch. Over two weeks, the agents produced 100,000 lines of code capable of compiling the Linux kernel.</p>
+                <p><strong>Stripe's</strong> coding agents, called "Minions," produce over a thousand merged pull requests every week.</p>
+                <p><strong>Spotify's</strong> background coding agent has merged over 1,500 PRs for fleet-wide code maintenance.</p>
+                <p><strong>Cursor's</strong> multi-agent system peaked at around 1,000 commits per hour building a web browser with almost no human input.</p>
+                <p><strong>StrongDM's</strong> AI team operates by an explicit principle: "Code must not be written by humans. Code must not be reviewed by humans."</p>
+                <p>How far and how fast this goes is genuinely unclear. But it does seem like something people in Northern Ireland should be talking about now.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="hazard-tape"></div>
+
+    <section class="talk-section" id="talk">
+        <div class="container">
+            <span class="label">Next Event</span>
+            <h2>Introduction to Fully Automated Software&nbsp;Engineering</h2>
+            <p class="talk-desc">Our first event looks at the shift from pair programming and ticket-level automation toward fully automated software engineering, and what that could mean for the future of the software industry.</p>
+            <p class="talk-desc">We're building a community around this in Northern Ireland so people here can understand it early, build practical skills, and help shape where it goes. Open to developers, researchers, students, and people working in business.</p>
+            
+            <div class="event-details-text">
+                <p><strong>WHEN</strong> Friday 8th May 2026 &middot; 12&ndash;2pm</p>
+                <p><strong>WHERE</strong> The Cube, Queen's Students' Union &middot; Belfast</p>
+                <p><strong>COST</strong> Free &middot; Open to all</p>
+            </div>
+
+            <div class="countdown" id="countdown" aria-label="Countdown to event"></div>
+
+            <a href="#contact" class="talk-cta">Sign up &rarr;</a>
+        </div>
+    </section>
+
+    <div class="hazard-tape"></div>
+
+    <section class="signals-section" id="signals">
+        <div class="container">
+            <div class="signals-header">
+                <h2>
+                    Industry Signals
+                    <div class="pulse-bars" aria-hidden="true"><span></span><span></span><span></span></div>
+                </h2>
+                <p>These are some of the things being published by engineering teams building in this space. We find it useful to keep track of what's being said, and by whom.</p>
+            </div>
+
+            <ul class="signals-list">
+                <li class="signal-item">
+                    <span class="signal-date">5th April 2026</span>
+                    <a class="signal-link" href="https://www.marktechpost.com/2026/04/05/meet-autoagent-the-open-source-library-that-lets-an-ai-engineer-and-optimize-its-own-agent-harness-overnight/" target="_blank" rel="noopener noreferrer">Meet 'AutoAgent': The Open-Source Library That Lets an AI Engineer and Optimize Its Own Agent Harness Overnight</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">5th April 2026</span>
+                    <a class="signal-link" href="https://yoonholee.com/meta-harness/" target="_blank" rel="noopener noreferrer">Meta-Harness: End-to-End Optimization of Model Harnesses</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">27th March 2026</span>
+                    <a class="signal-link" href="https://blog.exe.dev/bones-of-the-software-factory" target="_blank" rel="noopener noreferrer">Everyone is building a software factory</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">23rd March 2026</span>
+                    <a class="signal-link" href="https://exa.ai/blog/webcode" target="_blank" rel="noopener noreferrer">WebCode: Search Evals for Coding Agents</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">23rd March 2026</span>
+                    <a class="signal-link" href="https://cursor.com/blog/fast-regex-search" target="_blank" rel="noopener noreferrer">Fast regex search: indexing text for agent tools</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">20th March 2026</span>
+                    <a class="signal-link" href="https://github.github.com/spec-kit/" target="_blank" rel="noopener noreferrer">Spec Kit Documentation</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">17th March 2026</span>
+                    <a class="signal-link" href="https://blog.langchain.com/open-swe-an-open-source-framework-for-internal-coding-agents/" target="_blank" rel="noopener noreferrer">Open SWE: An Open-Source Framework for Internal Coding Agents</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">4th March 2026</span>
+                    <a class="signal-link" href="https://background-agents.com/" target="_blank" rel="noopener noreferrer">The Self-Driving Codebase: Background Agents and the Next Era of Software Delivery</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">4th March 2026</span>
+                    <a class="signal-link" href="https://scale.com/blog/swe-atlas" target="_blank" rel="noopener noreferrer">Can Coding Agents Become Engineers? We're Finding Out.</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">4th March 2026</span>
+                    <a class="signal-link" href="https://arxiv.org/abs/2603.03823" target="_blank" rel="noopener noreferrer">SWE-CI: Evaluating Agent Capabilities in Maintaining Codebases via Continuous Integration</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">26th February 2026</span>
+                    <a class="signal-link" href="https://github.com/openai/symphony" target="_blank" rel="noopener noreferrer">OpenAI: Symphony</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">20th February 2026</span>
+                    <a class="signal-link" href="https://github.com/A-EVO-Lab/a-evolve" target="_blank" rel="noopener noreferrer">A-EVO-Lab: a-evolve</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">19th February 2026</span>
+                    <a class="signal-link" href="https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2" target="_blank" rel="noopener noreferrer">Stripe Engineering: Minions, Stripe's One-shot End-to-end Coding Agents (Part 2)</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">17th February 2026</span>
+                    <a class="signal-link" href="https://www.infoq.com/news/2026/02/ai-agile-manifesto-debate/" target="_blank" rel="noopener noreferrer">InfoQ: AI and the Agile Manifesto Debate</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">12th February 2026</span>
+                    <a class="signal-link" href="https://cursor.com/blog/long-running-agents" target="_blank" rel="noopener noreferrer">Cursor: Long-running Agents</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">11th February 2026</span>
+                    <a class="signal-link" href="https://openai.com/index/harness-engineering/" target="_blank" rel="noopener noreferrer">OpenAI: Harness Engineering</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">9th February 2026</span>
+                    <a class="signal-link" href="https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents" target="_blank" rel="noopener noreferrer">Stripe Engineering: Minions, Stripe's One-shot End-to-end Coding Agents</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">7th February 2026</span>
+                    <a class="signal-link" href="https://simonwillison.net/2026/Feb/7/software-factory/" target="_blank" rel="noopener noreferrer">How StrongDM's AI team build serious software without even looking at the code</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">5th February 2026</span>
+                    <a class="signal-link" href="https://www.anthropic.com/engineering/building-c-compiler" target="_blank" rel="noopener noreferrer">Anthropic Engineering: Building a C Compiler with a Team of Parallel Claudes</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">5th February 2026</span>
+                    <a class="signal-link" href="https://cursor.com/blog/self-driving-codebases" target="_blank" rel="noopener noreferrer">Cursor: Towards Self-driving Codebases</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">14th January 2026</span>
+                    <a class="signal-link" href="https://cursor.com/blog/scaling-agents" target="_blank" rel="noopener noreferrer">Cursor: Scaling Agents</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">9th January 2026</span>
+                    <a class="signal-link" href="https://www.marktechpost.com/2026/01/09/meta-and-harvard-researchers-introduce-the-confucius-code-agent-cca-a-software-engineering-agent-that-can-operate-at-large-scale-codebases/" target="_blank" rel="noopener noreferrer">MarkTechPost: Meta and Harvard Introduce the Confucius Code Agent</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">9th December 2025</span>
+                    <a class="signal-link" href="https://engineering.atspotify.com/2025/12/feedback-loops-background-coding-agents-part-3" target="_blank" rel="noopener noreferrer">Spotify Engineering: Feedback Loops for Background Coding Agents (Part 3)</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">24th November 2025</span>
+                    <a class="signal-link" href="https://engineering.atspotify.com/2025/11/context-engineering-background-coding-agents-part-2" target="_blank" rel="noopener noreferrer">Spotify Engineering: Context Engineering for Background Coding Agents (Part 2)</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">6th November 2025</span>
+                    <a class="signal-link" href="https://engineering.atspotify.com/2025/11/spotifys-background-coding-agent-part-1" target="_blank" rel="noopener noreferrer">Spotify Engineering: Spotify's Background Coding Agent (Part 1)</a>
+                </li>
+                <li class="signal-item">
+                    <span class="signal-date">26th February 2025</span>
+                    <a class="signal-link" href="https://factory.ai/news/missions" target="_blank" rel="noopener noreferrer">Factory: Missions</a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="event-banner">
+        <div class="container">
+            <div class="event-banner-title">Introduction to Fully Automated Software Engineering</div>
+            <p>Friday 8th May &middot; 12&ndash;2pm &middot; The Cube, Queen's Students' Union, Belfast</p>
+            <a href="#contact" class="talk-cta">Sign up &rarr;</a>
+        </div>
+    </section>
+
+    <div class="hazard-tape"></div>
+
+    <section class="team-section">
+        <div class="container">
+            <h2>Who we are</h2>
+            <p style="color: var(--text-muted); max-width: 54ch; margin-bottom: 3rem;">We are a group of engineers and researchers trying to make sense of what's happening.</p>
+            
+            <div class="team-grid">
+                <!-- Person 1 -->
+                <div class="team-card">
+                    <div class="team-photo-container">
+                        <img src="img/team-john.webp" alt="John Bustard" class="team-photo photo-john" loading="lazy" width="800" height="800">
+                    </div>
+                    <div class="team-name">John Bustard</div>
+                    <div class="team-role">Lecturer, Queen's University Belfast</div>
+                    <div class="team-bio">Lecturer in the School of EEECS at Queen's with expertise in AI and computer vision. Director of QLAB, supporting advanced student and research-led technology projects.</div>
+                    <a href="https://www.linkedin.com/in/johndavidbustard/" class="team-link" target="_blank" rel="noopener">Connect &rarr;</a>
+                </div>
+
+                <!-- Person 2 -->
+                <div class="team-card">
+                    <div class="team-photo-container">
+                        <img src="img/team-jonathan.webp" alt="Jonathan Browning" class="team-photo photo-jonathan" loading="lazy" width="800" height="800">
+                    </div>
+                    <div class="team-name">Jonathan Browning</div>
+                    <div class="team-role">Senior Lecturer, Queen's University Belfast</div>
+                    <div class="team-bio">Senior Lecturer in the School of EEECS at Queen's, with research focusing on AI and entrepreneurship.</div>
+                    <a href="https://www.linkedin.com/in/jonathan-browning-graduate/" class="team-link" target="_blank" rel="noopener">Connect &rarr;</a>
+                </div>
+
+                <!-- Person 3 -->
+                <div class="team-card">
+                    <div class="team-photo-container">
+                        <img src="img/team-liam.webp" alt="Liam Coyle" class="team-photo" loading="lazy" width="400" height="400">
+                    </div>
+                    <div class="team-name">Liam Coyle</div>
+                    <div class="team-role">AI Consultant, LiamCoyle.com</div>
+                    <div class="team-bio">Helps organisations adopt AI in a practical, commercially sensible way. His work spans across advisory, training, and implementation.</div>
+                    <a href="https://www.linkedin.com/in/coyle-liam/" class="team-link" target="_blank" rel="noopener">Connect &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="footer-cta" id="contact">
+        <div class="container">
+            <div class="footer-main">
+                <h2>We'd love to talk</h2>
+                <p>We're trying to build a community around this in Northern Ireland. A place for people to share what they're learning, ask questions, and figure out together what this shift means for us here.</p>
+                <p>If any of this interests you, whether you're a developer, a researcher, a business owner, a student, or just someone who's been reading about this and wants to talk to other people about it, please get in touch. We'd genuinely love to hear from you.</p>
+                <form class="contact-form" action="https://formsubmit.co/73eecd20af2e9353727f6e3c71047a14" method="POST">
+                    <input type="hidden" name="_subject" value="FASE NI - new website form submission">
+                    <input type="hidden" name="_captcha" value="true">
+                    <input type="hidden" name="_next" id="form-next" value="thank-you.html">
+                    <div class="contact-row">
+                        <label class="contact-field">
+                            <span>Name</span>
+                            <input type="text" name="name" placeholder="Your name" required>
+                        </label>
+                        <label class="contact-field">
+                            <span>Email</span>
+                            <input type="email" name="email" placeholder="you@example.com" required>
+                        </label>
+                    </div>
+                    <label class="contact-field">
+                        <span>Message</span>
+                        <textarea name="message" placeholder="Your message here" required></textarea>
+                    </label>
+                    <button type="submit" class="contact-submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        (function () {
+            var nextField = document.getElementById("form-next");
+            if (!nextField) return;
+            try {
+                nextField.value = new URL("thank-you.html", window.location.href).toString();
+            } catch (e) {
+                nextField.value = "thank-you.html";
+            }
+        })();
+
+        (function () {
+            var target = new Date("2026-05-08T12:00:00+01:00");
+            var el = document.getElementById("countdown");
+            if (!el) return;
+
+            function pad(n) { return n < 10 ? "0" + n : n; }
+
+            function render() {
+                var now = new Date();
+                var diff = target - now;
+                if (diff <= 0) {
+                    el.innerHTML = "<span style='color:rgba(255,255,255,0.7); font-size:1rem;'>Happening now — or already happened. Hope to see you there.</span>";
+                    return;
+                }
+                var d = Math.floor(diff / 86400000);
+                var h = Math.floor((diff % 86400000) / 3600000);
+                var m = Math.floor((diff % 3600000) / 60000);
+                var s = Math.floor((diff % 60000) / 1000);
+
+                el.innerHTML =
+                    "<div class='countdown-unit'><span class='countdown-num'>" + d + "</span><span class='countdown-label'>days</span></div>" +
+                    "<div class='countdown-unit'><span class='countdown-num'>" + pad(h) + "</span><span class='countdown-label'>hours</span></div>" +
+                    "<div class='countdown-unit'><span class='countdown-num'>" + pad(m) + "</span><span class='countdown-label'>min</span></div>" +
+                    "<div class='countdown-unit'><span class='countdown-num'>" + pad(s) + "</span><span class='countdown-label'>sec</span></div>";
+            }
+
+            render();
+            setInterval(render, 1000);
+        })();
+    </script>
+
+</body>
+</html>
